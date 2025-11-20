@@ -54,7 +54,7 @@ export function Navbar({ brandName, routes, action }) {
 
   return (
     <MTNavbar className="p-3">
-      <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
+      <div className="container mx-auto flex items-center justify-between text-blue-gray-900 ">
         <Link to="/">
           <Typography
             variant="small"
@@ -99,7 +99,7 @@ export function Navbar({ brandName, routes, action }) {
           {/* 🔥 Logout και στο mobile menu */}
           <button
             onClick={handleLogout}
-            className="text-red-500 font-semibold w-full py-3 text-left"
+            className="text-red-500 font-semibold w-full text-left"
           >
             Logout
           </button>
