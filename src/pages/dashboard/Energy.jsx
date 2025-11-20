@@ -26,17 +26,21 @@ export function Energy() {
 
   return (
     <div className="p-6 lg:p-10 space-y-6">
-      <Typography variant="h2" color="blue-gray" className="font-bold">
-        ⚡ Energy Dashboard
-      </Typography>
-
-      <Button color="blue-gray" onClick={loadData} disabled={loading}>
-        {loading ? "Φόρτωση..." : "Ανανέωση"}
-      </Button>
+      
 
       <Card className="shadow-md border border-blue-gray-100">
-        <CardHeader floated={false} shadow={false} className="p-4">
-          <Typography variant="h5">📍 School Locations</Typography>
+        <CardHeader floated={false} shadow={false} className="p-4 flex items-center justify-between">
+          <Typography variant="h2" color="blue-gray" className="font-bold">
+            ⚡ Energy Dashboard
+          </Typography>
+          <Button
+            color="blue-gray"
+            onClick={loadData}
+            disabled={loading}
+            className="whitespace-nowrap"
+          >
+            {loading ? "Φόρτωση..." : "Ανανέωση"}
+          </Button>
         </CardHeader>
         <CardBody className="h-[500px]">
           <EnergyMap devices={rows} />

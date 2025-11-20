@@ -29,21 +29,17 @@ export function Mobility() {
 
   return (
     <div className="p-6 lg:p-10 space-y-8 w-full mx-auto max-w-7xl">
-
-      {/* Page Title */}
-      <Typography variant="h2" color="blue-gray" className="font-bold">
-        🚦 Mobility Dashboard
-      </Typography>
-
-      {/* Refresh Button */}
-      <Button onClick={loadData} color="blue-gray" disabled={loading}>
-        {loading ? "Φόρτωση..." : "Ανανέωση"}
-      </Button>
-
       {/* Mobility Map */}
       <Card className="shadow-md border border-blue-gray-100">
-        <CardHeader floated={false} shadow={false} className="p-4">
-          <Typography variant="h5">📍 Traffic Lights & Sensors</Typography>
+        <CardHeader floated={false} shadow={false} className="p-4 flex items-center justify-between">
+          {/* Page Title */}
+        <Typography variant="h2" color="blue-gray" className="font-bold">
+          🚦 Mobility Dashboard
+        </Typography>
+          {/* Refresh Button */}
+          <Button onClick={loadData} color="blue-gray" disabled={loading}>
+            {loading ? "Φόρτωση..." : "Ανανέωση"}
+          </Button>
         </CardHeader>
 
         <CardBody className="h-[500px]">
