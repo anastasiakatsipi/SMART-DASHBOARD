@@ -33,8 +33,9 @@ export async function fetchEnvironmentData() {
       temperature: values.temperature ?? null,
 
       // --- Metadata ---
-      dateObserved: values.dateObserved ?? props.dateObserved ?? null,
-      entry_date: values.entry_date ?? props.entry_date ?? null,
+      dateObserved: values.dateObserved || props.dateObserved || null,
+      entry_date: values.entry_date || props.entry_date || null,
+
       adress: values.adress ?? props.adress ?? null,
       city: values.city ?? props.city ?? null,
       postal_code: values.postal_code ?? props.postal_code ?? null,

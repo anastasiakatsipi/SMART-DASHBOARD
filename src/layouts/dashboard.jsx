@@ -14,14 +14,14 @@ export function Dashboard() {
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavType } = controller;
 
-  // 🔥 Φιλτράρουμε τα routes για το Sidenav (κρατάμε ΜΟΝΟ τα "dashboard")
+
   const sidebarRoutes = routes.filter(r => r.layout === "dashboard");
 
   return (
     <div className="min-h-screen bg-blue-gray-50/50">
       
       <Sidenav
-        routes={sidebarRoutes}   // ⬅️ Εδώ πλέον εμφανίζονται *μόνο* τα dashboard pages!
+        routes={sidebarRoutes}   // Εδώ εμφανίζονται *μόνο* τα dashboard pages!
         brandImg={
           sidenavType === "dark" ? "/img/logo-ct.png" : "/img/logo-ct-dark.png"
         }
@@ -41,7 +41,6 @@ export function Dashboard() {
           <Cog6ToothIcon className="h-5 w-5" />
         </IconButton>
 
-        {/* 🔥 ROUTING – συνεχίζει να φορτώνει όλα τα dashboard paths */}
         <Routes>
           {routes.map(
             ({ layout, pages }) =>

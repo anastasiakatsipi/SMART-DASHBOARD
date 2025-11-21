@@ -2,6 +2,8 @@ import React from "react";
 import MetricBarChart from "@/widgets/charts/MetricBarChart";
 
 export function Co2Chart({ data, height = 250 }) {
+ // console.log("DATA FROM Co2Chart:", data);
+
   return (
     <MetricBarChart
       data={data}

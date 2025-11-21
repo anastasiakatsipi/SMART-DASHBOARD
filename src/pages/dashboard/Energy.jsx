@@ -21,8 +21,15 @@ export function Energy() {
   };
 
   useEffect(() => {
-    loadData();
+    loadData(); // 1η φόρτωση όταν ανοίγει η σελίδα
+
+    const interval = setInterval(() => {
+      loadData(); // αυτόματη ανανέωση κάθε 5 λεπτά
+    }, 300000); // 300.000ms = 5 λεπτά
+
+    return () => clearInterval(interval); // καθαρισμός όταν αλλάζει σελίδα
   }, []);
+
 
   return (
     <div className="p-6 lg:p-10 space-y-6">

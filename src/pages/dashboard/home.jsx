@@ -16,11 +16,17 @@ export function Home() {
   const [energyCount, setEnergyCount] = useState(0);
   const [trafficLightsCount, setTrafficLightsCount] = useState(0);
   const [trafficSensorsCount, setTrafficSensorsCount] = useState(0);
-  const [mapPoints, setMapPoints] = useState([]);
 
   useEffect(() => {
-    loadStats();
+    loadData(); // 1η φόρτωση όταν ανοίγει η σελίδα
+
+    const interval = setInterval(() => {
+      loadData(); // αυτόματη ανανέωση κάθε 5 λεπτά
+    }, 300000); // 300.000ms = 5 λεπτά
+
+    return () => clearInterval(interval); // καθαρισμός όταν αλλάζει σελίδα
   }, []);
+
 
   async function loadStats() {
     try {

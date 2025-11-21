@@ -22,8 +22,15 @@ export function Environment() {
   };
 
   useEffect(() => {
-    loadData();
+    loadData(); // 1η φόρτωση όταν ανοίγει η σελίδα
+
+    const interval = setInterval(() => {
+      loadData(); // αυτόματη ανανέωση κάθε 5 λεπτά
+    }, 300000); // 300.000ms = 5 λεπτά
+
+    return () => clearInterval(interval); // καθαρισμός όταν αλλάζει σελίδα
   }, []);
+
 
   return (
     <div className="p-6 lg:p-10 space-y-8 w-full mx-auto max-w-7xl">    
@@ -45,14 +52,14 @@ export function Environment() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="bg-white rounded-xl shadow-md p-4">
           <Co2Chart
-            data={rows.map(r => ({ name: r.name, co2: r.co2 }))}
+            data={rows}
             height={260}
           />
         </div>
 
         <div className="bg-white rounded-xl shadow-md p-4">
           <TemperatureChart
-            data={rows.map(r => ({ name: r.name, temperature: r.temperature }))}
+            data={rows}
             height={260}
           />
         </div>

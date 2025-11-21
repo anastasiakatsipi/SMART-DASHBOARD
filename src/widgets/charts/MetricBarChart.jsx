@@ -8,7 +8,11 @@ import {
   YAxis,
   Tooltip,
   Bar,
+  Cell,
 } from "recharts";
+
+
+import CustomTooltip  from "@/widgets/charts/Tooltip";
 
 export function MetricBarChart({
   data,
@@ -20,16 +24,70 @@ export function MetricBarChart({
 }) {
   const hasData = Array.isArray(data) && data.length > 0;
   
-  // 🔥 1. Φιλτράρουμε τιμές null, undefined, 0
+  // Φιλτράρουμε τιμές null, undefined, 0
   const cleanData = (Array.isArray(data) ? data : []).filter(
     (d) => d[valueKey] !== null && d[valueKey] !== undefined && d[valueKey] > 0
   );
 
-  // 🔥 2. Όλα τα labels = "Building"
-  const transformedData = cleanData.map((d) => ({
+  const transformedData = cleanData.map((d) => {
+  const iso = d.dateObserved || d.entry_date || null;
+
+  let date = "";
+  let time = "";
+
+  if (iso) {
+    const dt = new Date(iso);
+
+    date = dt.toLocaleDateString("el-GR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+
+    time = dt.toLocaleTimeString("el-GR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  }
+
+  return {
     ...d,
-    label: "Building",
-  }));
+    label: d.displayName || d.building_name || d.name || "Building",
+    iso,   // 🔥 ΚΡΑΤΑΜΕ και το raw ISO
+    date,
+    time,
+  };
+});
+
+
+
+  const colors = [
+    "#3b82f6", // Blue 500
+    "#10b981", // Green 500
+    "#f59e0b", // Amber 500
+    "#ef4444", // Red 500
+    "#6366f1", // Indigo 500
+    "#ec4899", // Pink 500
+    "#14b8a6", // Teal 500
+    "#8b5cf6", // Violet 500
+    "#06b6d4", // Cyan 500
+    "#84cc16", // Lime 500
+    "#0ea5e9", // Sky 500
+    "#d946ef", // Fuchsia 500
+    "#f43f5e", // Rose 500
+    "#22c55e", // Emerald 500
+    "#eab308", // Yellow 500
+    "#fb923c", // Orange 400
+    "#64748b", // Slate 500
+    "#a855f7", // Purple 500
+    "#4ade80", // Green 400
+    "#38bdf8", // Sky 400
+    "#f87171", // Red 400
+    "#c084fc", // Violet 400
+    "#2dd4bf", // Teal 400
+    "#ffa500", // Orange (custom vivid)
+    "#009688", // Teal dark (custom)
+  ];
 
 
 
@@ -68,21 +126,17 @@ export function MetricBarChart({
                 }}
               />
 
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: "white",
-                  borderColor: "#e2e8f0",
-                }}
-                itemStyle={{ color: "#334155" }}
-                labelStyle={{ color: "#475569" }}
-              />
+              <Tooltip content={<CustomTooltip />} />
 
-              <Bar
-                dataKey={valueKey}
-                fill="#334155"       // blue-gray-700
-                stroke="#1e293b"     // blue-gray-800
-                radius={[4, 4, 0, 0]}
-              />
+
+              <Bar dataKey={valueKey} radius={[4, 4, 0, 0]}>
+                {transformedData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={colors[index % colors.length]}   // 🔥 Εδώ γίνεται η μαγεία
+                  />
+                ))}
+              </Bar>
 
 
             </BarChart>
