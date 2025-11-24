@@ -9,6 +9,9 @@ import {
 } from "@/widgets/layout";
 import routes from "@/routes";
 import { useMaterialTailwindController, setOpenConfigurator } from "@/context";
+import ProtectedRoute from "@/auth/ProtectedRoute";
+import NotAuthorized from "@/pages/dashboard/NotAuthorized";
+
 
 export function Dashboard() {
   const [controller, dispatch] = useMaterialTailwindController();
@@ -40,16 +43,26 @@ export function Dashboard() {
         >
           <Cog6ToothIcon className="h-5 w-5" />
         </IconButton>
-
+        
         <Routes>
+          <Route path="403" element={<NotAuthorized />} />
           {routes.map(
             ({ layout, pages }) =>
               layout === "dashboard" &&
-              pages.map(({ path, element }) => (
-                <Route key={path} path={path} element={element} />
+              pages.map(({ path, element, roles }) => (
+                <Route
+                  key={path}
+                  path={path}
+                  element={
+                    <ProtectedRoute roles={roles}>
+                      {element}
+                    </ProtectedRoute>
+                  }
+                />
               ))
           )}
         </Routes>
+
 
         <div className="text-blue-gray-600">
           <Footer />

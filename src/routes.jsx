@@ -22,24 +22,28 @@ export const routes = [
         name: "dashboard",
         path: "/home",
         element: <Home />,
+        roles: ["admin", "user", "manager"], // 🔥 allowed roles
       },
       {
         icon: <BoltIcon {...icon} />,
         name: "energy",
         path: "/energy",
         element: <Energy />,
+        roles: ["admin"], // 🔥 μόνο admin
       },
       {
         icon: <GlobeAmericasIcon {...icon} />,
         name: "environment",
         path: "/environment",
         element: <Environment />,
+        roles: ["admin", "manager"], // 🔥 admin + manager
       },
       {
         icon: <TruckIcon {...icon} />,
         name: "mobility",
         path: "/mobility",
         element: <Mobility />,
+        roles: ["user", "admin"], // 🔥 user + admin
       },
     ],
   },
@@ -52,10 +56,12 @@ export const routes = [
         name: "sign in",
         path: "/sign-in",
         element: <SignIn />,
+        roles: ["*"], // public
       },
     ],
   },
 ];
+
 
 
 export default routes;

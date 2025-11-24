@@ -19,34 +19,57 @@ function isTokenValid(token) {
     const decoded = decodeJwt(token);
     if (!decoded?.exp) return false;
 
-    const now = Date.now() / 1000; // current time in seconds
+    const now = Date.now() / 1000;
     return decoded.exp > now;
   } catch {
     return false;
   }
 }
 
+// -------------------------------
+//   Load roles from .env
+// -------------------------------
+const AVAILABLE_ROLES = import.meta.env.VITE_ROLES
+  ? import.meta.env.VITE_ROLES.split(",")
+  : [];
+
+const DEFAULT_ROLE = import.meta.env.VITE_DEFAULT_ROLE || AVAILABLE_ROLES[1] || null;
+
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => getAccessToken());
   const [user, setUser] = useState(() => {
     const t = getAccessToken();
-    return t && isTokenValid(t) ? decodeJwt(t) : null;
+
+    if (t && isTokenValid(t)) {
+      const decoded = decodeJwt(t);
+      return { ...decoded, role: DEFAULT_ROLE }; // 🔥 ADD ROLE
+    }
+
+    return DEFAULT_ROLE ? { role: DEFAULT_ROLE } : null;
   });
 
   // Update user if token changes
   useEffect(() => {
     if (token && isTokenValid(token)) {
-      setUser(decodeJwt(token));
+      const decoded = decodeJwt(token);
+      setUser({ ...decoded, role: DEFAULT_ROLE }); // 🔥 ADD ROLE
     } else {
-      setUser(null);
+      setUser(DEFAULT_ROLE ? { role: DEFAULT_ROLE } : null);
     }
   }, [token]);
+
+  // Helper: check if user has a specific role
+  const hasRole = (role) => user?.role === role;
 
   const value = useMemo(
     () => ({
       token,
       user,
       isAuthenticated: isTokenValid(token),
+
+      roles: AVAILABLE_ROLES,
+      currentRole: user?.role,
+      hasRole,
 
       async login({
         username,
