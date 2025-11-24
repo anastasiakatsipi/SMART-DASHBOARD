@@ -11,7 +11,7 @@ export async function fetchBuildingProfiles() {
       format: "json",
     },
   });
-
+  console.log("RAW API RESPONSE:", data);  // ⬅️ ΕΔΩ
   return data.features ?? [];
 }
 

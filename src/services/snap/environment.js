@@ -6,10 +6,11 @@ export async function fetchEnvironmentData() {
     params: {
       selection: "36.0;27.7;36.6;28.3",
       model: "RhodesBuildingProfile",
+      type:"BuildingProfile",
       format: "json",
     },
   });
-
+   //console.log("RAW API RESPONSE:", data);  // ⬅️ ΕΔΩ
   const features = data?.features ?? [];
 
   return features.map((f) => {
@@ -17,7 +18,7 @@ export async function fetchEnvironmentData() {
     const values = props.values || {};
 
     return {
-      name: props.deviceName || props.name,
+      name: props.deviceName,
       displayName: props.building_name || null,
       lat: f.geometry.coordinates[1],
       lng: f.geometry.coordinates[0],
@@ -48,6 +49,9 @@ export async function fetchEnvironmentData() {
       power_consumption: values.power_consumption ?? null,
       water_consumption: values.water_consumption ?? null,
       fuel_tank: values.fuel_tank ?? null,
+
+
+      
     };
   });
 }

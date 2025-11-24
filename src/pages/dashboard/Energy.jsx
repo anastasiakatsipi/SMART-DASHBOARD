@@ -10,26 +10,52 @@ export function Energy() {
   const [devices, setDevices] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Fetch sensor data from API
+  // 🔥 Τα buildings που θέλεις να εμφανίζονται
+  const ALLOWED_BUILDINGS = [
+    "megaro_akadimia",
+    "venetokleio_building_b",
+    "venetokleio_building_a",
+    "geniko_lykeio_rodou_3",
+    "neo_dimotiko_archaggelou",
+    "epal_rodou_1",
+    "kleisto_gipedo_kalithion",
+    "kleisto_gipedo_venetokleiou",
+    "geniko_lykeio_rodou_2",
+    "gymnasio_rodou_5",
+    "gymnasio_rodou_4",
+    "geniko_lykeio_rodou_4",
+    "techniki_ypiresia",
+    "dimarxeio",
+  ];
+
   const loadData = async () => {
     setLoading(true);
     try {
-      const result = await fetchEnvironmentData();         // ⬅️ All data from the backend
-      const withGeo = result.filter((d) => d.lat && d.lng); // Keep only devices with coordinates
-      setDevices(withGeo);
+      const result = await fetchEnvironmentData();
+console.log("ALL DEVICE NAMES:", result.map(r => r.name));
+console.log("FULL RAW JSON:", JSON.stringify(result, null, 2));
+      // πάρε μόνο όσα έχουν συντεταγμένες
+      const withGeo = result.filter((d) => d.lat && d.lng);
+
+      // 🔥 κράτα ΜΟΝΟ όσα θες
+      const filtered = withGeo.filter((item) =>
+        ALLOWED_BUILDINGS.includes(item.name)
+      );
+
+      setDevices(filtered);
+
     } catch (err) {
       console.error("Energy fetch error:", err);
     }
     setLoading(false);
   };
 
-  // Load data on page load + auto-refresh every 5 minutes
   useEffect(() => {
     loadData();
 
     const interval = setInterval(() => {
       loadData();
-    }, 300000); // 300,000 ms = 5 minutes
+    }, 300000);
 
     return () => clearInterval(interval);
   }, []);
