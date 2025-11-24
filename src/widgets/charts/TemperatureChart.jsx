@@ -8,9 +8,9 @@ export function TemperatureChart({ data, height = 250 }) {
       data={data}
       height={height}
       valueKey="temperature"
-      yLabel="Θερμοκρασία (°C)"
-      title="Θερμοκρασία ανά σχολείο"
-      description="Άξονας Χ = σχολεία, άξονας Υ = θερμοκρασία σε °C."
+      yLabel="Temperature (°C)"
+      title="Temperature per Building"
+      description="X-axis = buildings, Y-axis = temperature in °C."
     />
   );
 }

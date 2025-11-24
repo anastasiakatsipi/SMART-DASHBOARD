@@ -44,7 +44,7 @@ export function Environment() {
                     {loading ? "Φόρτωση..." : "Ανανέωση"}
                 </Button>
               </CardHeader>
-              <CardBody className="h-[500px]">
+              <CardBody className="pb-4">
                 <SchoolMap schools={rows} />
               </CardBody>
             

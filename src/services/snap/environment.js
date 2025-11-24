@@ -22,6 +22,9 @@ export async function fetchEnvironmentData() {
       lat: f.geometry.coordinates[1],
       lng: f.geometry.coordinates[0],
 
+      // --- NEW FIELD ---
+      serviceUri: props.serviceUri ?? null,
+
       // --- Environmental values ---
       LVOC: values.LVOC ?? null,
       PM1: values.PM1 ?? null,

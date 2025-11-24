@@ -38,9 +38,9 @@ export function EnergyMap({ devices = [] }) {
         className="w-64 bg-white rounded-xl shadow-md border border-blue-gray-100 p-4 flex-shrink-0"
         style={{ maxHeight: "100%", overflowY: "auto" }}
       >
-        <h3 className="text-lg font-semibold text-blue-gray-800 mb-3">
-          ⚡ Επιλογή Ενεργειακών Σημείων
-        </h3>
+        <h4 className="text-sm font-bold text-blue-gray-700 mt-4 mb-2">
+          Select Energy Points
+        </h4>
 
         <div className="space-y-2">
           {devices.map((d) => (

@@ -57,9 +57,7 @@ export function MobilityMap({ sensors = [], lights = [] }) {
         className="w-64 bg-white rounded-xl shadow-md border border-blue-gray-100 p-4 flex-shrink-0"
         style={{ maxHeight: "100%", overflowY: "auto" }}
       >
-        <h3 className="text-lg font-semibold text-blue-gray-800 mb-3">
-          🚦 Επιλογή Σημείων
-        </h3>
+        
 
         {/* GROUP 1: Traffic Sensors */}
         <h4 className="text-sm font-bold text-blue-gray-700 mt-4 mb-2">

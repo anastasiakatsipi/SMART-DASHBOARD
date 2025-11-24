@@ -2,16 +2,14 @@ import React from "react";
 import MetricBarChart from "@/widgets/charts/MetricBarChart";
 
 export function Co2Chart({ data, height = 250 }) {
- // console.log("DATA FROM Co2Chart:", data);
-
   return (
     <MetricBarChart
       data={data}
       height={height}
       valueKey="co2"
       yLabel="CO₂ (ppm)"
-      title="Διάγραμμα CO₂ ανά σχολείο"
-      description="Άξονας Χ = σχολεία, άξονας Υ = CO₂ σε ppm."
+      title="CO₂ Levels per Building"
+      description="X-axis = buildings, Y-axis = CO₂ concentration in ppm."
     />
   );
 }
