@@ -12,20 +12,20 @@ export function Environment() {
 
   // ✔ EXACT SAME STYLE AS Energy.jsx
   const ALLOWED_BUILDINGS = {
-    lykeio_archangelou: "Archangelos High School",
-    gymnasio_kremastis: "Kremasti Junior High School",
+    lykeio_archangelou: "Archangelos Senior High School",
+    gymnasio_kremastis: "Kremastis Middle School",
     venetokleio_b: "Venetokleio (Building B)",
     venetokleio_a: "Venetokleio (Building A)",
-    kapnoviomichania: "Tobacco Industry Building",
-    oikokyriki: "Home Economics School",
-    kazouleio: "Kazouleio Cultural Center",
+    kapnoviomichania: "Tobacco Industry",
+    oikokyriki: "Oikokyriki",
+    kazouleio: "Kazouleio",
     akadimia: "Academy Hall",
-    gymnasio_gennadiou: "Gennadi Junior High School",
+    gymnasio_gennadiou: "Gennadiou Middle School",
   };
 
   const ALLOWED_STATIONS = {
-    weather_station_sae1: "Weather Station SAE 1",
-    weather_station_sae2: "Weather Station SAE 2",
+    weather_station_sae1: "Weather Station 1",
+    weather_station_sae2: "Weather Station 2",
   };
 
   const loadData = async () => {
@@ -81,7 +81,7 @@ export function Environment() {
         </CardHeader>
 
         <CardBody className="pb-4">
-          <SchoolMap schools={rows} />
+          <SchoolMap schools={rows} loading={loading} />
         </CardBody>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

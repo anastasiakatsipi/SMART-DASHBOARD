@@ -62,8 +62,6 @@ export function MobilityMap({ sensors = [], lights = [] }) {
 
   // ------- HISTORIC RANGE HANDLER -------
   const handleRangeSelect = async (device, rangeKey, metric) => {
-    console.log("LIGHTS:", lights);
-console.log("SENSORS:", sensors);
 
     if (!device.serviceUri) {
       console.warn("❌ No serviceUri for device:", device.deviceName);

@@ -15,7 +15,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 });
 
-export function EnergyMap({ devices = [] }) {
+export function EnergyMap({ devices = [], loading }) {
   const [selected, setSelected] = useState(devices.map((d) => d.name));
 
   // For historic panel
@@ -71,10 +71,18 @@ export function EnergyMap({ devices = [] }) {
           className="w-64 bg-white rounded-xl shadow-md border p-4 flex-shrink-0"
           style={{ height: "450px", overflowY: "auto" }}
         >
-          <h4 className="text-sm font-bold text-blue-gray-700 mt-4 mb-2">
-            Select Energy Points
+          <h4 className="text-center text-sm font-bold text-blue-gray-700 mt-4 mb-2">
+            Select Energy Points<hr/>
           </h4>
 
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-10">
+              <div className="w-7 h-7 border-4 border-gray-500 border-t-transparent rounded-full animate-spin"></div>
+              <p className="mt-3 text-sm text-gray-700 font-medium">
+                Loading data, please wait...
+              </p>
+            </div>
+          ) : (
           <div className="space-y-2">
             {devices.map((d) => (
               <label
@@ -93,6 +101,7 @@ export function EnergyMap({ devices = [] }) {
               </label>
             ))}
           </div>
+          )}
         </div>
 
         {/* Map */}

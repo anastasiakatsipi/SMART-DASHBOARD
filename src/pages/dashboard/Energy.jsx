@@ -15,15 +15,15 @@ export function Energy() {
     megaro_akadimia: "Academy Hall",
     venetokleio_building_b: "Venetokleio (Building B)",
     venetokleio_building_a: "Venetokleio (Building A)",
-    geniko_lykeio_rodou_3: "3rd General Lyceum of Rhodes",
+    geniko_lykeio_rodou_3: "3rd Senior High School of Rhodes",
     neo_dimotiko_archaggelou: "New Primary School of Archangelos",
-    epal_rodou_1: "1st Vocational High School of Rhodes",
+    epal_rodou_1: "1st Technikal School of Rhodes",
     kleisto_gipedo_kalithion: "Kalithies Indoor Gym",
     kleisto_gipedo_venetokleiou: "Venetokleio Indoor Gym",
-    geniko_lykeio_rodou_2: "2nd General Lyceum of Rhodes",
-    gymnasio_rodou_5: "5th Junior High School of Rhodes",
-    gymnasio_rodou_4: "4th Junior High School of Rhodes",
-    geniko_lykeio_rodou_4: "4th General Lyceum of Rhodes",
+    geniko_lykeio_rodou_2: "2nd Senior High School of Rhodes",
+    gymnasio_rodou_5: "5th Middle School of Rhodes",
+    gymnasio_rodou_4: "4th Middle School of Rhodes",
+    geniko_lykeio_rodou_4: "4th Senior High School of Rhodes",
     techniki_ypiresia: "Technical Services Department",
     dimarxeio: "City Hall",
   };
@@ -93,7 +93,7 @@ export function Energy() {
 
         {/* BODY — ΕΔΩ ΜΠΑΙΝΕΙ ΤΟ ENERGYMAP */}
         <CardBody className="pb-4">
-          <EnergyMap devices={devices} />
+          <EnergyMap devices={devices} loading={loading}/>
         </CardBody>
 
       </Card>
