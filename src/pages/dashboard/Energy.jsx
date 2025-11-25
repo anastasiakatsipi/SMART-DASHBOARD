@@ -11,44 +11,51 @@ export function Energy() {
   const [loading, setLoading] = useState(false);
 
   // 🔥 Τα buildings που θέλεις να εμφανίζονται
-  const ALLOWED_BUILDINGS = [
-    "megaro_akadimia",
-    "venetokleio_building_b",
-    "venetokleio_building_a",
-    "geniko_lykeio_rodou_3",
-    "neo_dimotiko_archaggelou",
-    "epal_rodou_1",
-    "kleisto_gipedo_kalithion",
-    "kleisto_gipedo_venetokleiou",
-    "geniko_lykeio_rodou_2",
-    "gymnasio_rodou_5",
-    "gymnasio_rodou_4",
-    "geniko_lykeio_rodou_4",
-    "techniki_ypiresia",
-    "dimarxeio",
-  ];
+  const ALLOWED_BUILDINGS = {
+    megaro_akadimia: "Academy Hall",
+    venetokleio_building_b: "Venetokleio (Building B)",
+    venetokleio_building_a: "Venetokleio (Building A)",
+    geniko_lykeio_rodou_3: "3rd General Lyceum of Rhodes",
+    neo_dimotiko_archaggelou: "New Primary School of Archangelos",
+    epal_rodou_1: "1st Vocational High School of Rhodes",
+    kleisto_gipedo_kalithion: "Kalithies Indoor Gym",
+    kleisto_gipedo_venetokleiou: "Venetokleio Indoor Gym",
+    geniko_lykeio_rodou_2: "2nd General Lyceum of Rhodes",
+    gymnasio_rodou_5: "5th Junior High School of Rhodes",
+    gymnasio_rodou_4: "4th Junior High School of Rhodes",
+    geniko_lykeio_rodou_4: "4th General Lyceum of Rhodes",
+    techniki_ypiresia: "Technical Services Department",
+    dimarxeio: "City Hall",
+  };
+
+
 
   const loadData = async () => {
     setLoading(true);
     try {
       const result = await fetchEnvironmentData();
-console.log("ALL DEVICE NAMES:", result.map(r => r.name));
-console.log("FULL RAW JSON:", JSON.stringify(result, null, 2));
-      // πάρε μόνο όσα έχουν συντεταγμένες
+
       const withGeo = result.filter((d) => d.lat && d.lng);
 
-      // 🔥 κράτα ΜΟΝΟ όσα θες
+      // 1️⃣ Filter only the devices you want
       const filtered = withGeo.filter((item) =>
-        ALLOWED_BUILDINGS.includes(item.name)
+        ALLOWED_BUILDINGS[item.name]
       );
 
-      setDevices(filtered);
+      // 2️⃣ Add the English displayName
+      const mapped = filtered.map((item) => ({
+        ...item,
+        displayName: ALLOWED_BUILDINGS[item.name],
+      }));
+
+      setDevices(mapped);
 
     } catch (err) {
       console.error("Energy fetch error:", err);
     }
     setLoading(false);
   };
+
 
   useEffect(() => {
     loadData();

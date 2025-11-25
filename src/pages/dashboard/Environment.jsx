@@ -10,37 +10,51 @@ export function Environment() {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const ALLOWED_BUILDINGS = [
-    "lykeio_archangelou",
-    "gymnasio_kremastis",
-    "venetokleio_b",
-    "venetokleio_a",
-    "kapnoviomichania",
-    "oikokyriki",
-    "kazouleio",
-    "akadimia",
-    "gymnasio_gennadiou",
-  ];
+  // ✔ EXACT SAME STYLE AS Energy.jsx
+  const ALLOWED_BUILDINGS = {
+    lykeio_archangelou: "Archangelos High School",
+    gymnasio_kremastis: "Kremasti Junior High School",
+    venetokleio_b: "Venetokleio (Building B)",
+    venetokleio_a: "Venetokleio (Building A)",
+    kapnoviomichania: "Tobacco Industry Building",
+    oikokyriki: "Home Economics School",
+    kazouleio: "Kazouleio Cultural Center",
+    akadimia: "Academy Hall",
+    gymnasio_gennadiou: "Gennadi Junior High School",
+  };
+
+  const ALLOWED_STATIONS = {
+    weather_station_sae1: "Weather Station SAE 1",
+    weather_station_sae2: "Weather Station SAE 2",
+  };
 
   const loadData = async () => {
     setLoading(true);
     try {
-      const result = await fetchEnvironmentData();
-      const weather = await fetchWeatherStations();
+      const buildings = await fetchEnvironmentData();
+      const stations = await fetchWeatherStations();
 
-      console.log("WEATHER STATIONS:", weather);
-      console.log("BUILDINGS:", result.map(r => r.name));
+      // buildings that have geo
+      const buildingsWithGeo = buildings.filter((d) => d.lat && d.lng);
 
-      const withGeo = result.filter((d) => d.lat && d.lng);
+      // ONLY keep allowed buildings
+      const filteredBuildings = buildingsWithGeo
+        .filter((b) => ALLOWED_BUILDINGS[b.name])
+        .map((b) => ({
+          ...b,
+          displayName: ALLOWED_BUILDINGS[b.name],
+        }));
 
-      const filteredBuildings = withGeo.filter((item) =>
-        ALLOWED_BUILDINGS.includes(item.name)
-      );
+      // ONLY keep allowed stations
+      const filteredStations = stations
+        .filter((s) => ALLOWED_STATIONS[s.name])
+        .map((s) => ({
+          ...s,
+          displayName: ALLOWED_STATIONS[s.name],
+        }));
 
-      // merge buildings + weather
-      const merged = [...filteredBuildings, ...weather];
+      setRows([...filteredBuildings, ...filteredStations]);
 
-      setRows(merged);
     } catch (err) {
       console.error("Environment fetch error:", err);
     }
@@ -49,15 +63,9 @@ export function Environment() {
 
   useEffect(() => {
     loadData();
-
-    const interval = setInterval(() => {
-      loadData();
-    }, 300000);
-
+    const interval = setInterval(() => loadData(), 300000);
     return () => clearInterval(interval);
   }, []);
-
-  console.log("TOTAL ROWS:", rows.length);
 
   return (
     <div className="p-6 lg:p-10 space-y-8 w-full mx-auto max-w-7xl">
@@ -66,8 +74,9 @@ export function Environment() {
           <Typography variant="h2" color="blue-gray" className="font-bold">
             🌿 Environment Dashboard
           </Typography>
+
           <Button onClick={loadData} color="dark" disabled={loading}>
-            {loading ? "Φόρτωση..." : "Ανανέωση"}
+            {loading ? "Loading..." : "Ανανέωση"}
           </Button>
         </CardHeader>
 

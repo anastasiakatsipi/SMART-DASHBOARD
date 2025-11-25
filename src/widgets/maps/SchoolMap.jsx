@@ -78,7 +78,9 @@ export function SchoolMap({ schools }) {
                   onChange={() => toggleSchool(s.name)}
                   className="w-4 h-4 accent-blue-gray-700"
                 />
-                <span className="text-blue-gray-700 text-sm">{s.name}</span>
+                <span className="text-blue-gray-700 text-sm">
+                  {s.displayName ?? s.name}
+                </span>
               </label>
             ))}
           </div>

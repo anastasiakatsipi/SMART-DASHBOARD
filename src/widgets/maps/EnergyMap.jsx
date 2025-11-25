@@ -54,9 +54,8 @@ export function EnergyMap({ devices = [] }) {
                 onChange={() => toggleDevice(d.name)}
                 className="w-4 h-4 accent-blue-gray-700"
               />
-              <span className="text-blue-gray-700 text-sm">
-                {d.name}
-              </span>
+              <span className="text-blue-gray-700 text-sm">{d.displayName ?? d.name}</span>
+
             </label>
           ))}
         </div>

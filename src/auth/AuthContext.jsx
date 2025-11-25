@@ -33,7 +33,7 @@ const AVAILABLE_ROLES = import.meta.env.VITE_ROLES
   ? import.meta.env.VITE_ROLES.split(",")
   : [];
 
-const DEFAULT_ROLE = import.meta.env.VITE_DEFAULT_ROLE || AVAILABLE_ROLES[1] || null;
+const DEFAULT_ROLE = import.meta.env.VITE_DEFAULT_ROLE;
 
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => getAccessToken());
@@ -42,7 +42,7 @@ export function AuthProvider({ children }) {
 
     if (t && isTokenValid(t)) {
       const decoded = decodeJwt(t);
-      return { ...decoded, role: DEFAULT_ROLE }; // 🔥 ADD ROLE
+      return { ...decoded, role: DEFAULT_ROLE }; // ROLE
     }
 
     return DEFAULT_ROLE ? { role: DEFAULT_ROLE } : null;
@@ -52,7 +52,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     if (token && isTokenValid(token)) {
       const decoded = decodeJwt(token);
-      setUser({ ...decoded, role: DEFAULT_ROLE }); // 🔥 ADD ROLE
+      setUser({ ...decoded, role: DEFAULT_ROLE }); //  ROLE
     } else {
       setUser(DEFAULT_ROLE ? { role: DEFAULT_ROLE } : null);
     }
