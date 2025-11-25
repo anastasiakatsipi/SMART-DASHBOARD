@@ -71,9 +71,15 @@ export function Environment() {
     <div className="p-6 lg:p-10 space-y-8 w-full mx-auto max-w-7xl">
       <Card className="shadow-md border border-blue-gray-100">
         <CardHeader floated={false} shadow={false} className="p-4 flex items-center justify-between">
-          <Typography variant="h2" color="blue-gray" className="font-bold">
-            🌿 Environment Dashboard
-          </Typography>
+          <div className="flex flex-col">
+            <Typography variant="h3" color="blue-gray" className="font-bold flex items-center gap-2">
+              Environment Dashboard
+            </Typography>
+
+            <Typography variant="paragraph" color="gray" className="mt-1">
+              Values for CO₂, temperature, humidity & air quality.
+            </Typography>
+          </div>
 
           <Button onClick={loadData} color="dark" disabled={loading}>
             {loading ? "Loading..." : "Ανανέωση"}

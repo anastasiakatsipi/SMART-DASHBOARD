@@ -77,10 +77,19 @@ export function Energy() {
           shadow={false}
           className="p-4 flex items-center justify-between"
         >
-          <Typography variant="h2" color="blue-gray" className="font-bold">
-            ⚡ Energy Dashboard
+
+        <div className="flex flex-col">
+          <Typography variant="h3" color="blue-gray" className="font-bold flex items-center gap-2">
+            Energy Dashboard
           </Typography>
 
+          <Typography variant="paragraph" color="gray" className="mt-1">
+            Monitor energy consumption and fuel levels across all municipal buildings.
+          </Typography>
+        </div>
+
+
+          
           <Button
             color="dark"
             onClick={loadData}
