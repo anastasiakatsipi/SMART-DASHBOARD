@@ -1,7 +1,7 @@
 import { createClient } from "jsr:@supabase/supabase-js@2";
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
-const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY");
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 function json(data, status = 200, headers = {}) {
   return new Response(JSON.stringify(data), {
     status,
@@ -85,6 +85,78 @@ Deno.serve(async (req)=>{
       }
       return json({
         traffic_sensors: data
+      }, 200, CORS_HEADERS);
+    }
+    // GET /latest
+    if (req.method === "GET" && path === "/latest") {
+      // Fetch latest buildings
+      const { data: buildings, error: bErr } = await supabase.from("building_data_latest").select("*");
+      // Fetch latest traffic lights
+      const { data: lights, error: lErr } = await supabase.from("traffic_lights_data_latest").select("*");
+      // Fetch latest traffic sensors
+      const { data: sensors, error: sErr } = await supabase.from("traffic_sensors_data_latest").select("*");
+      // Error handling
+      if (bErr || lErr || sErr) {
+        console.error("Error fetching latest data", {
+          buildingsError: bErr,
+          lightsError: lErr,
+          sensorsError: sErr
+        });
+        return json({
+          error: "Internal server error"
+        }, 500, CORS_HEADERS);
+      }
+      // Success response
+      return json({
+        latest: {
+          buildings,
+          traffic_lights: lights,
+          traffic_sensors: sensors
+        }
+      }, 200, CORS_HEADERS);
+    }
+    // GET /history
+    if (req.method === "GET" && path === "/history") {
+      const deviceName = url.searchParams.get("deviceName");
+      // Query base
+      let buildingsQuery = supabase.from("building_data").select("*").order("created_at", {
+        ascending: false
+      });
+      let lightsQuery = supabase.from("traffic_lights_data").select("*").order("created_at", {
+        ascending: false
+      });
+      let sensorsQuery = supabase.from("traffic_sensors_data").select("*").order("created_at", {
+        ascending: false
+      });
+      // If deviceName is given → filter by deviceName
+      if (deviceName) {
+        buildingsQuery = buildingsQuery.eq("payload->>deviceName", deviceName);
+        lightsQuery = lightsQuery.eq("payload->>deviceName", deviceName);
+        sensorsQuery = sensorsQuery.eq("payload->>deviceName", deviceName);
+      }
+      const [{ data: buildings, error: bErr }, { data: lights, error: lErr }, { data: sensors, error: sErr }] = await Promise.all([
+        buildingsQuery,
+        lightsQuery,
+        sensorsQuery
+      ]);
+      // Error handling
+      if (bErr || lErr || sErr) {
+        console.error("Error fetching history", {
+          buildingsError: bErr,
+          lightsError: lErr,
+          sensorsError: sErr
+        });
+        return json({
+          error: "Internal server error"
+        }, 500, CORS_HEADERS);
+      }
+      // Success response
+      return json({
+        history: {
+          buildings,
+          traffic_lights: lights,
+          traffic_sensors: sensors
+        }
       }, 200, CORS_HEADERS);
     }
     if (req.method === "POST" && path === "/insert") {
