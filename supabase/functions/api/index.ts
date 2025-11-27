@@ -52,41 +52,104 @@ Deno.serve(async (req)=>{
       }, 200, CORS_HEADERS);
     }
     if (req.method === "GET" && path === "/buildings") {
-      const { data, error } = await supabase.from("building_data").select("payload").limit(20);
+      const from = url.searchParams.get("from");
+      const to = url.searchParams.get("to");
+
+      let query = supabase
+        .from("building_data")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      // Apply FROM date filter
+      if (from) {
+        query = query.gte("created_at", from);
+      }
+
+      // Apply TO date filter
+      if (to) {
+        // Προσθέτουμε μια μέρα για να συμπεριλάβει όλη την ημέρα
+        const toEnd = new Date(to);
+        toEnd.setDate(toEnd.getDate() + 1);
+        query = query.lt("created_at", toEnd.toISOString());
+      }
+
+      const { data, error } = await query;
+
       if (error) {
         console.error("DB Error (GET /buildings):", error);
         return json({
           error: "Internal server error"
         }, 500, CORS_HEADERS);
       }
+
       return json({
         buildings: data
       }, 200, CORS_HEADERS);
     }
+
     if (req.method === "GET" && path === "/traffic_lights") {
-      const { data, error } = await supabase.from("traffic_lights_data").select("*").limit(50);
+      const from = url.searchParams.get("from");
+      const to = url.searchParams.get("to");
+
+      let query = supabase
+        .from("traffic_lights_data")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      // FROM filter
+      if (from) {
+        query = query.gte("created_at", from);
+      }
+
+      // TO filter (έως και την ημέρα αυτή)
+      if (to) {
+        const toEnd = new Date(to);
+        toEnd.setDate(toEnd.getDate() + 1);
+        query = query.lt("created_at", toEnd.toISOString());
+      }
+
+      const { data, error } = await query;
+
       if (error) {
         console.error("DB Error (GET /traffic_lights):", error);
-        return json({
-          error: "Internal server error"
-        }, 500, CORS_HEADERS);
+        return json({ error: "Internal server error" }, 500, CORS_HEADERS);
       }
-      return json({
-        traffic_lights: data
-      }, 200, CORS_HEADERS);
+
+      return json({ traffic_lights: data }, 200, CORS_HEADERS);
     }
+
+
     if (req.method === "GET" && path === "/traffic_sensors") {
-      const { data, error } = await supabase.from("traffic_sensors_data").select("*").limit(50);
+      const from = url.searchParams.get("from");
+      const to = url.searchParams.get("to");
+
+      let query = supabase
+        .from("traffic_sensors_data")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      // FROM filter
+      if (from) {
+        query = query.gte("created_at", from);
+      }
+
+      // TO filter (μέχρι το τέλος της ημέρας)
+      if (to) {
+        const toEnd = new Date(to);
+        toEnd.setDate(toEnd.getDate() + 1);
+        query = query.lt("created_at", toEnd.toISOString());
+      }
+
+      const { data, error } = await query;
+
       if (error) {
         console.error("DB Error (GET /traffic_sensors):", error);
-        return json({
-          error: "Internal server error"
-        }, 500, CORS_HEADERS);
+        return json({ error: "Internal server error" }, 500, CORS_HEADERS);
       }
-      return json({
-        traffic_sensors: data
-      }, 200, CORS_HEADERS);
+
+      return json({ traffic_sensors: data }, 200, CORS_HEADERS);
     }
+
     // GET /latest
     if (req.method === "GET" && path === "/latest") {
       // Fetch latest buildings
