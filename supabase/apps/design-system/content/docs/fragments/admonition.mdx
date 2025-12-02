@@ -1,0 +1,49 @@
+---
+title: Admonition
+description: Displays a callout for user attention.
+fragment: true
+---
+
+<ComponentPreview
+  name="admonition-demo"
+  className="[&_.preview>[data-orientation=vertical]]:sm:max-w-[70%]"
+  peekCode
+  wide
+/>
+
+## Usage
+
+```tsx
+import { Admonition } from 'ui-patterns/admonition'
+```
+
+```tsx
+<Admonition
+  type="default"
+  title="Is it accessible?"
+  description="Yes. It adheres to the WAI-ARIA design pattern."
+/>
+```
+
+## Examples
+
+### With actions
+
+<ComponentPreview
+  name="admonition-demo"
+  className="[&_.preview>[data-orientation=vertical]]:sm:max-w-[70%]"
+/>
+
+### Warning
+
+<ComponentPreview
+  name="admonition-warning"
+  className="[&_.preview>[data-orientation=vertical]]:sm:max-w-[70%]"
+/>
+
+### Destructive
+
+<ComponentPreview
+  name="admonition-destructive"
+  className="[&_.preview>[data-orientation=vertical]]:sm:max-w-[70%]"
+/>
