@@ -24,7 +24,7 @@ export function Dashboard() {
     .map(role => role.toLowerCase())
     .filter((v, i, arr) => arr.indexOf(v) === i);
 
-  console.log("SIDENAV USER ROLES:", userRoles);
+  //console.log("SIDENAV USER ROLES:", userRoles);
   //const sidebarRoutes = routes.filter(r => r.layout === "dashboard");
   const filteredRoutes = routes
   .filter(r => r.layout === "dashboard")
@@ -39,17 +39,13 @@ export function Dashboard() {
 
 
   return (
-    <div className="min-h-screen bg-blue-gray-50/50">
-      
+    <div className="min-h-screen bg-blue-gray-50/50"> 
       <Sidenav
         routes={filteredRoutes}
         brandImg={
           sidenavType === "dark" ? "/img/logo-ct.png" : "/img/logo-ct-dark.png"
         }
       />
-
-
-
       <div className="p-5 xl:ml-80">
         <DashboardNavbar/>
         <Configurator />
@@ -63,7 +59,6 @@ export function Dashboard() {
         >
           <Cog6ToothIcon className="h-5 w-5" />
         </IconButton>
-        
         <Routes>
           <Route path="403" element={<NotAuthorized />} />
           {routes.map(
@@ -82,8 +77,6 @@ export function Dashboard() {
               ))
           )}
         </Routes>
-
-
         <div className="text-blue-gray-600">
           <Footer />
         </div>

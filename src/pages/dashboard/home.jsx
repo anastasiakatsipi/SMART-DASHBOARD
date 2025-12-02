@@ -28,7 +28,7 @@ export function Home() {
   .map(r => r.toLowerCase())
   .filter((v, i, arr) => arr.indexOf(v) === i); // remove duplicates
 
-  console.log("USER ROLES:", userRoles);
+  //console.log("USER ROLES:", userRoles);
   
   //console.log("DECODEDJWT:", decoded);
   // ---------- ICON MAP ----------
